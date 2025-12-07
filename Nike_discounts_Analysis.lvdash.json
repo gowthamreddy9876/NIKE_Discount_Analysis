@@ -1,0 +1,709 @@
+{
+  "datasets": [
+    {
+      "name": "cec57a50",
+      "displayName": "Average Nike Discount Rate Summary",
+      "queryLines": [
+        "USE CATALOG `workspace`;\n",
+        "USE SCHEMA `nike_discounts`;\n",
+        "\n",
+        "SELECT AVG(discount_percent) AS average_discount_percent\n",
+        "FROM workspace.nike_discounts.nike_discounts_clean;"
+      ]
+    },
+    {
+      "name": "34bbdfd8",
+      "displayName": "Untitled dataset",
+      "queryLines": [
+        "USE CATALOG `workspace`;\n",
+        "USE SCHEMA `nike_discounts`;\n",
+        "\n",
+        "SELECT \n",
+        "  title,\n",
+        "  product_type,\n",
+        "  original_price,\n",
+        "  discount_percent,\n",
+        "  final_price\n",
+        "FROM workspace.nike_discounts.nike_discounts_clean\n",
+        "ORDER BY discount_percent DESC\n",
+        "LIMIT 10;\n"
+      ]
+    },
+    {
+      "name": "d862562e",
+      "displayName": "Untitled dataset",
+      "queryLines": [
+        "USE CATALOG `workspace`;\n",
+        "USE SCHEMA `default`;\n",
+        "\n",
+        "SELECT\n",
+        "  discount_percent,\n",
+        "  COUNT(*) AS discount_count\n",
+        "FROM workspace.nike_discounts.nike_discounts_clean\n",
+        "GROUP BY discount_percent\n",
+        "ORDER BY discount_percent;\n",
+        "\n"
+      ]
+    },
+    {
+      "name": "607c97ac",
+      "displayName": "Untitled dataset",
+      "queryLines": [
+        "USE CATALOG `workspace`;\n",
+        "USE SCHEMA `nike_discounts`;\n",
+        "\n",
+        "SELECT\n",
+        "  title,\n",
+        "  final_price\n",
+        "FROM workspace.nike_discounts.nike_discounts_clean\n",
+        "ORDER BY final_price DESC\n",
+        "LIMIT 15;"
+      ]
+    },
+    {
+      "name": "39196243",
+      "displayName": "Untitled dataset",
+      "queryLines": [
+        "USE CATALOG `workspace`;\n",
+        "USE SCHEMA `default`;\n",
+        "\n",
+        "SELECT\n",
+        "  CASE \n",
+        "      WHEN discount_amount BETWEEN 0 AND 20 THEN '0–20'\n",
+        "      WHEN discount_amount BETWEEN 21 AND 40 THEN '21–40'\n",
+        "      WHEN discount_amount BETWEEN 41 AND 60 THEN '41–60'\n",
+        "      WHEN discount_amount BETWEEN 61 AND 80 THEN '61–80'\n",
+        "      WHEN discount_amount BETWEEN 81 AND 100 THEN '81–100'\n",
+        "      ELSE '100+'\n",
+        "  END AS discount_amount_range,\n",
+        "  COUNT(*) AS num_products\n",
+        "FROM workspace.nike_discounts.nike_discounts_clean\n",
+        "GROUP BY discount_amount_range\n",
+        "ORDER BY num_products DESC;\n"
+      ]
+    },
+    {
+      "name": "4ba77888",
+      "displayName": "for tiles",
+      "queryLines": [
+        "SELECT\r\n",
+        "  AVG(original_price) AS avg_original_price,\r\n",
+        "  AVG(final_price) AS avg_final_price,\r\n",
+        "  AVG(original_price - final_price) AS avg_discount_amount\r\n",
+        "FROM workspace.nike_discounts.nike_discounts_clean;"
+      ],
+      "catalog": "workspace",
+      "schema": "nike_discounts"
+    }
+  ],
+  "pages": [
+    {
+      "name": "e9499115",
+      "displayName": "Discounts_analysis",
+      "layout": [
+        {
+          "widget": {
+            "name": "e13a9184",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "cec57a50",
+                  "fields": [
+                    {
+                      "name": "average_discount_percent",
+                      "expression": "`average_discount_percent`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "average_discount_percent",
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 0
+                    }
+                  },
+                  "rowNumber": 1
+                }
+              },
+              "frame": {
+                "title": "",
+                "showTitle": true,
+                "description": "Average Discount Percentage",
+                "showDescription": true
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 3,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "4d955e7f",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "34bbdfd8",
+                  "fields": [
+                    {
+                      "name": "title",
+                      "expression": "`title`"
+                    },
+                    {
+                      "name": "product_type",
+                      "expression": "`product_type`"
+                    },
+                    {
+                      "name": "original_price",
+                      "expression": "`original_price`"
+                    },
+                    {
+                      "name": "discount_percent",
+                      "expression": "`discount_percent`"
+                    },
+                    {
+                      "name": "final_price",
+                      "expression": "`final_price`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 1,
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "title",
+                    "booleanValues": [
+                      "false",
+                      "true"
+                    ],
+                    "imageUrlTemplate": "{{ @ }}",
+                    "imageTitleTemplate": "{{ @ }}",
+                    "imageWidth": "",
+                    "imageHeight": "",
+                    "linkUrlTemplate": "{{ @ }}",
+                    "linkTextTemplate": "{{ @ }}",
+                    "linkTitleTemplate": "{{ @ }}",
+                    "linkOpenInNewTab": true,
+                    "type": "string",
+                    "displayAs": "string",
+                    "visible": true,
+                    "order": 100000,
+                    "title": "title",
+                    "allowSearch": false,
+                    "alignContent": "left",
+                    "allowHTML": false,
+                    "highlightLinks": false,
+                    "useMonospaceFont": false,
+                    "preserveWhitespace": false
+                  },
+                  {
+                    "fieldName": "product_type",
+                    "booleanValues": [
+                      "false",
+                      "true"
+                    ],
+                    "imageUrlTemplate": "{{ @ }}",
+                    "imageTitleTemplate": "{{ @ }}",
+                    "imageWidth": "",
+                    "imageHeight": "",
+                    "linkUrlTemplate": "{{ @ }}",
+                    "linkTextTemplate": "{{ @ }}",
+                    "linkTitleTemplate": "{{ @ }}",
+                    "linkOpenInNewTab": true,
+                    "type": "string",
+                    "displayAs": "string",
+                    "visible": true,
+                    "order": 100001,
+                    "title": "product_type",
+                    "allowSearch": false,
+                    "alignContent": "left",
+                    "allowHTML": false,
+                    "highlightLinks": false,
+                    "useMonospaceFont": false,
+                    "preserveWhitespace": false
+                  },
+                  {
+                    "fieldName": "original_price",
+                    "numberFormat": "0",
+                    "booleanValues": [
+                      "false",
+                      "true"
+                    ],
+                    "imageUrlTemplate": "{{ @ }}",
+                    "imageTitleTemplate": "{{ @ }}",
+                    "imageWidth": "",
+                    "imageHeight": "",
+                    "linkUrlTemplate": "{{ @ }}",
+                    "linkTextTemplate": "{{ @ }}",
+                    "linkTitleTemplate": "{{ @ }}",
+                    "linkOpenInNewTab": true,
+                    "type": "integer",
+                    "displayAs": "number",
+                    "visible": true,
+                    "order": 100002,
+                    "title": "original_price",
+                    "allowSearch": false,
+                    "alignContent": "right",
+                    "allowHTML": false,
+                    "highlightLinks": false,
+                    "useMonospaceFont": false,
+                    "preserveWhitespace": false
+                  },
+                  {
+                    "fieldName": "discount_percent",
+                    "numberFormat": "0.00",
+                    "booleanValues": [
+                      "false",
+                      "true"
+                    ],
+                    "imageUrlTemplate": "{{ @ }}",
+                    "imageTitleTemplate": "{{ @ }}",
+                    "imageWidth": "",
+                    "imageHeight": "",
+                    "linkUrlTemplate": "{{ @ }}",
+                    "linkTextTemplate": "{{ @ }}",
+                    "linkTitleTemplate": "{{ @ }}",
+                    "linkOpenInNewTab": true,
+                    "type": "float",
+                    "displayAs": "number",
+                    "visible": true,
+                    "order": 100003,
+                    "title": "discount_percent",
+                    "allowSearch": false,
+                    "alignContent": "right",
+                    "allowHTML": false,
+                    "highlightLinks": false,
+                    "useMonospaceFont": false,
+                    "preserveWhitespace": false
+                  },
+                  {
+                    "fieldName": "final_price",
+                    "numberFormat": "0.00",
+                    "booleanValues": [
+                      "false",
+                      "true"
+                    ],
+                    "imageUrlTemplate": "{{ @ }}",
+                    "imageTitleTemplate": "{{ @ }}",
+                    "imageWidth": "",
+                    "imageHeight": "",
+                    "linkUrlTemplate": "{{ @ }}",
+                    "linkTextTemplate": "{{ @ }}",
+                    "linkTitleTemplate": "{{ @ }}",
+                    "linkOpenInNewTab": true,
+                    "type": "float",
+                    "displayAs": "number",
+                    "visible": true,
+                    "order": 100004,
+                    "title": "final_price",
+                    "allowSearch": false,
+                    "alignContent": "right",
+                    "allowHTML": false,
+                    "highlightLinks": false,
+                    "useMonospaceFont": false,
+                    "preserveWhitespace": false
+                  }
+                ]
+              },
+              "invisibleColumns": [],
+              "allowHTMLByDefault": false,
+              "itemsPerPage": 5,
+              "paginationSize": "default",
+              "condensed": true,
+              "withRowNumber": false,
+              "frame": {
+                "title": "Top 10 Highest Discounted Products",
+                "showTitle": true
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 4,
+            "width": 6,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "6b615275",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "d862562e",
+                  "fields": [
+                    {
+                      "name": "sum(discount_count)",
+                      "expression": "SUM(`discount_count`)"
+                    },
+                    {
+                      "name": "discount_percent",
+                      "expression": "`discount_percent`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "pie",
+              "encodings": {
+                "angle": {
+                  "fieldName": "sum(discount_count)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "discount_count"
+                },
+                "color": {
+                  "fieldName": "discount_percent",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "mark": {
+                "layout": "stack"
+              },
+              "frame": {
+                "title": "Discount Percent Distribution",
+                "showTitle": true
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 9,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "8ede7c00",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "607c97ac",
+                  "fields": [
+                    {
+                      "name": "title",
+                      "expression": "`title`"
+                    },
+                    {
+                      "name": "sum(final_price)",
+                      "expression": "SUM(`final_price`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "title",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(final_price)",
+                  "displayName": "final_price",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "frame": {
+                "title": "Top Highest Final Price Products",
+                "showTitle": true
+              },
+              "mark": {
+                "layout": "group"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 15,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "1f485c6b",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "39196243",
+                  "fields": [
+                    {
+                      "name": "discount_amount_range",
+                      "expression": "`discount_amount_range`"
+                    },
+                    {
+                      "name": "sum(num_products)",
+                      "expression": "SUM(`num_products`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "sum(num_products)",
+                  "displayName": "num_products",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "discount_amount_range",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "color": {
+                  "fieldName": "discount_amount_range",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "frame": {
+                "title": "Discount Amount Range Distribution\n",
+                "showTitle": true
+              },
+              "mark": {
+                "layout": "group"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 21,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "average-final-price",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "4ba77888",
+                  "fields": [
+                    {
+                      "name": "avg_final_price",
+                      "expression": "`avg_final_price`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "avg_final_price"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Average Final Price\n"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 6,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "average-original-price",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "4ba77888",
+                  "fields": [
+                    {
+                      "name": "avg_original_price",
+                      "expression": "`avg_original_price`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "avg_original_price"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Average Original Price\n"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 0,
+            "width": 3,
+            "height": 2
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS"
+    },
+    {
+      "name": "9f91fb10",
+      "displayName": "Global Filters",
+      "layout": [
+        {
+          "widget": {
+            "name": "19dee09f",
+            "queries": [
+              {
+                "name": "dashboards/01f0d2f9621312c8a71cb637327e9e0b/datasets/01f0d2f9aea01b1aba2a915c21c18767_discount_percent",
+                "query": {
+                  "datasetName": "34bbdfd8",
+                  "fields": [
+                    {
+                      "name": "discount_percent",
+                      "expression": "`discount_percent`"
+                    },
+                    {
+                      "name": "discount_percent_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "discount_percent",
+                    "queryName": "dashboards/01f0d2f9621312c8a71cb637327e9e0b/datasets/01f0d2f9aea01b1aba2a915c21c18767_discount_percent"
+                  }
+                ]
+              },
+              "frame": {
+                "showTitle": true
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "7d5b6c98",
+            "queries": [
+              {
+                "name": "dashboards/01f0d2f9621312c8a71cb637327e9e0b/datasets/01f0d2f9f1f4156b8e7933c147649610_discount_amount_range",
+                "query": {
+                  "datasetName": "39196243",
+                  "fields": [
+                    {
+                      "name": "discount_amount_range",
+                      "expression": "`discount_amount_range`"
+                    },
+                    {
+                      "name": "discount_amount_range_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "filter-single-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "discount_amount_range",
+                    "queryName": "dashboards/01f0d2f9621312c8a71cb637327e9e0b/datasets/01f0d2f9f1f4156b8e7933c147649610_discount_amount_range"
+                  }
+                ]
+              },
+              "frame": {
+                "showTitle": true
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 1,
+            "height": 2
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_GLOBAL_FILTERS"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+    },
+    "applyModeEnabled": false
+  }
+}
